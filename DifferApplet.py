@@ -20,6 +20,7 @@ view ??       |   view          |
 #initialzie things
 import time
 import tkinter as tk
+from tkinter import filedialog
 app = tk.Tk()
 app.title('Packets 4 lyfe')
 app.grid_columnconfigure(index=0, weight=1)
@@ -48,6 +49,9 @@ def make_line_at(xcoord, color='green'):
     keypressbar.create_line(xcoord,0,xcoord,100,fill=color,width=5)
 
 
+def load_pcap_from_file():
+    print("got file {}".format(filedialog.askopenfilename()))
+
 
 #menu bar
 def closewindow():
@@ -56,6 +60,7 @@ def closewindow():
 menubar = tk.Menu(app)
 filemenu = tk.Menu(menubar, tearoff = 0)
 filemenu.add_command(label = "Close", command = closewindow)
+filemenu.add_command(label = "Open PCap File", command = load_pcap_from_file)
 menubar.add_cascade(label = "File", menu = filemenu)
 app.config(menu = menubar)
 
