@@ -18,6 +18,7 @@ view ??       |   view          |
 
 
 #initialzie things
+import time
 import tkinter as tk
 app = tk.Tk()
 app.title('Packets 4 lyfe')
@@ -38,12 +39,9 @@ slider.grid(row=3, column=0, columnspan=3)
 keypressbar = tk.Canvas(app, width=1000, height=30, background='white')
 keypressbar.grid(row=2, column=0, columnspan=3)
 
-def make_line_at(xcoord, color):
+def make_line_at(xcoord, color='green'):
     #different colors for different packet types/keypresses
     keypressbar.create_line(xcoord,0,xcoord,100,fill=color,width=5)
-
-make_line_at(10, 'red')
-make_line_at(500, 'blue')
 
 
 
@@ -87,6 +85,21 @@ listbox.grid(column=2, row=1, columnspan=2)
 for i in range(4):
     listbox.insert(tk.END, "weiner" + str(i))
 listbox.insert(tk.END, "i dont really know how to do this part yet lewl.")
+
+
+
+#Example of how to update dynamically
+
+def update():
+    seconds = '{:.0f}'.format(time.clock())
+    num = int(seconds)    
+    print(num)
+    listbox.insert(0, seconds)
+    make_line_at(50 + 10 * num, 'red')
+    
+    app.after(1000, update) #time in ms, func to run
+
+update() # run it once before main loop
 
 if __name__ == '__main__':
     app.mainloop()
