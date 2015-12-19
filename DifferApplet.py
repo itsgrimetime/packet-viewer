@@ -1,26 +1,8 @@
-"""
-Applet User Interface
---------------------------------
-                                |
-              |                 |
-fine keyboard |   fine packet   |
-view ??       |   view          |
-                                |
-                                |
-                                |
-                                |
-                                |
-    packet/keypress bar         |
-         slider bar             |
----------------------------------
-"""
-
-
-
-#initialzie things
 import time
 import tkinter as tk
 from tkinter import filedialog
+import sys, os
+    
 app = tk.Tk()
 app.title('Packets 4 lyfe')
 app.grid_columnconfigure(index=0, weight=1)
@@ -42,16 +24,14 @@ slider.grid(row=3, column=0, columnspan=3)
 
 #packet/keypress bar 
 keypressbar = tk.Canvas(app, width=1000, height=30, background='white')
-keypressbar.grid(row=2, column=0, columnspan=3)
+keypressbar.grid(row=3, column=0, columnspan=3)
 
 def make_line_at(xcoord, color='green'):
     #different colors for different packet types/keypresses
-    keypressbar.create_line(xcoord,0,xcoord,100,fill=color,width=5)
-
+    keypressbar.create_line(xcoord,0,xcoord,100,fill=color,width=1)
 
 def load_pcap_from_file():
     print("got file {}".format(filedialog.askopenfilename()))
-
 
 #menu bar
 def closewindow():
@@ -90,9 +70,6 @@ for i in range(100):
 #Packet comparison
 listbox = tk.Listbox(app, width=120)
 listbox.grid(column=2, row=1, columnspan=2)
-
-for i in range(4):
-    listbox.insert(tk.END, "weiner" + str(i))
 listbox.insert(tk.END, "i dont really know how to do this part yet lewl.")
 
 
@@ -100,14 +77,12 @@ listbox.insert(tk.END, "i dont really know how to do this part yet lewl.")
 #Example of how to update dynamically
 
 def update():
-    seconds = '{:.0f}'.format(time.clock())
-    num = int(seconds)
-    print(num)
-    listbox.insert(0, the_int)
-    make_line_at(50 + 10 * num, 'red')
+    seconds = int(time.clock())    
+    listbox.insert(0, seconds)
+    make_line_at(10 * seconds, 'red')
     app.after(1000, update) #time in ms, func to run
-
 update() # run it once before main loop
+
 
 if __name__ == '__main__':
     app.mainloop()
