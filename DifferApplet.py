@@ -26,14 +26,18 @@ app.grid_columnconfigure(index=0, weight=1)
 app.grid_columnconfigure(index=1, weight=1)
 app.grid_columnconfigure(index=2, weight=20)
 
+# module-global var to update on slider callback
+the_int = 0
+
+def callback(n):
+    global the_int
+    the_int = n
 
 #slider bar
 start = 0 
 end = 100
-slider = tk.Scale(app, from_=start, to=end, orient=tk.HORIZONTAL, length=1000)
+slider = tk.Scale(app, from_=start, to=end, orient=tk.HORIZONTAL, length=1000, command = lambda x: callback(slider.get()))
 slider.grid(row=3, column=0, columnspan=3)
-
-
 
 #packet/keypress bar 
 keypressbar = tk.Canvas(app, width=1000, height=30, background='white')
@@ -92,11 +96,10 @@ listbox.insert(tk.END, "i dont really know how to do this part yet lewl.")
 
 def update():
     seconds = '{:.0f}'.format(time.clock())
-    num = int(seconds)    
+    num = int(seconds)
     print(num)
-    listbox.insert(0, seconds)
+    listbox.insert(0, the_int)
     make_line_at(50 + 10 * num, 'red')
-    
     app.after(1000, update) #time in ms, func to run
 
 update() # run it once before main loop
