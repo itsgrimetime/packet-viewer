@@ -49,7 +49,7 @@ class applet:
         # self.listbox.pack(fill=tk.BOTH, expand=1, pady=(0,20))
         # self.listbox.insert(tk.END, "i dont really know how to do this part yet lewl.")
 
-        self.text = tk.Text(self.app)
+        self.text = tk.Text(self.app, width = 60)
         self.text.pack()
 
         #update dynamically
@@ -73,7 +73,18 @@ class applet:
 
     def get_current_packet_hex(self):
         if self.packets:
-            return str(binascii.hexlify(self.packets[self.slider.get() % len(self.packets)].raw()))
+            output = binascii.hexlify(self.packets[self.slider.get() % len(self.packets)].raw()).decode('utf-8')
+            spaced_output = ""
+            count = 0
+            # theres def a better way to do this
+            for c in output:
+                if count is 2:
+                    spaced_output += " "
+                    count = 0
+                else:
+                    spaced_output += c
+                    count += 1
+            return spaced_output
         else:
             return ""
 
