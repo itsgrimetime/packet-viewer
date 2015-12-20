@@ -2,9 +2,10 @@
 #from classapp import a
 #a()
 
-import time
 import tkinter as tk
-import sys, os
+from tkinter import filedialog
+from viewer.PacketTimeline import PacketTimeline
+
 
 class applet:
     def __init__(self):
@@ -60,8 +61,11 @@ class applet:
                 #Key pressed at textboxes
                 
         
-    def load_pcap_from_file(self):
-        print("got file {}".format(tk.filedialog.askopenfilename()))   
+    def load_pcap_from_file(filename):
+        filename = filedialog.askopenfilename()
+        print("got file {}".format(filename))
+        packets = PacketTimeline(filename)
+
         
     #Example of how to update dynamically
     def update(self):
