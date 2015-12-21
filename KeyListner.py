@@ -1,18 +1,16 @@
-#listen to key presses, dont know how to do this concurrently.
-#also dont know if it should be done that way.
-import pythoncom, pyHook, time
+import pythoncom, pyHook
+import time
+from datetime import datetime
+import sys
 
 def OnKeyboardEvent(event):
-    print("Key: ", chr(event.Ascii) + str(event.IsTransition()))
-    if chr(event.Ascii) == 'q': exit()
+    print("key",chr(event.Ascii), "up" if event.IsTransition() else "down", event.Time)
     return True
     
 def OnMouseEvent(event):
     if event.MessageName != 'mouse move':
-        print(event.MessageName)
+        print(event.MessageName, event.Time)
     return True
-    
-
     
 def listen(sec=5):
     hm = pyHook.HookManager()
@@ -21,11 +19,16 @@ def listen(sec=5):
     hm.MouseAll = OnMouseEvent
     hm.HookMouse()
     hm.HookKeyboard()
-    
-    with open('{}.txt'.format(time.clock(), 'w+') as f):
-        while time.clock() > sec:
+
+    date = datetime.strftime(datetime.now(), 'Keypresses %b%d %H.%M%p')
+
+    with open('{}.txt'.format(date), 'w+') as f:
+        sys.stdout = f
+        while time.clock() < sec:
             pythoncom.PumpWaitingMessages()
             
     hm.UnhookMouse()
     hm.UnhookKeyboard()
 
+if __name__ == '__main__':
+    listen()
