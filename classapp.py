@@ -95,6 +95,11 @@ class applet:
         self.app.after(1000, self.update) #time in ms, func to run
         self.text.delete(1.0, tk.END)
         self.text.insert(tk.INSERT, self.get_current_packet_hex())
+        # Example of coloring the text box
+        self.text.tag_add("here", "1.0", "1.4")
+        self.text.tag_add("start", "1.8", "1.13")
+        self.text.tag_config("here", background="yellow", foreground="blue")
+        self.text.tag_config("start", background="black", foreground="green")
 
     def make_line_at(self, xcoord, text='None', color='green'):
         #different colors for different packet types/keypresses
